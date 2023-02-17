@@ -3,3 +3,10 @@
   padding: 0;
   font-family: 'Old Standard TT', serif;
 }
+
+.container {
+  height: 100vh;
+  background:linear-gradient(0deg, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url('./assets/watch-dogs.jpg');
+  background-size:cover;
+  flex: 1
+}
