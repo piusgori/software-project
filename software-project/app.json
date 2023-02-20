@@ -1,11 +1,12 @@
 {
   "expo": {
-    "name": "software-project",
-    "slug": "software-project",
+    "name": "devhub",
+    "slug": "devhub",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
+    "scheme": "http://localhost:19000",
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
@@ -28,6 +29,12 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "extra": {
+      "eas": {
+        "projectId": "a4675c91-f7a3-4cc0-9c4a-e14e8ae696a7"
+      }
+    },
+    "owner": "ian_pius"
   }
 }
