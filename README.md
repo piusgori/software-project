@@ -1,3 +1,4 @@
+<div>
 # A CODE ISSUE SOLUTION SOCIAL DEVELOPER INTERACTION PLATFORM
 
 ***
@@ -39,3 +40,4 @@ This research will be undertaken on developers as they are the major key subject
 ### Methodology and Models
 
 The research was aimed at solving the problem of communication between developers concerning coding problems each one of them face. I used both qualitative and quantitative data while collecting. I used a number of data collection methods. I conducted interviews to developers about how they find solutions to their coding problems. I came to the realization that most of them find it hard to understand the solutions that are provided by the platforms that are in existence. I also observed that some platforms do not provide the ability of solution seekers to communicate directly with the developers who have answered their questions. There is only a comment section. Putting into practice the ethnographic way of data collection, I immersed myself as a user and encounterd platform crashing issues. I addition, no relevant infromation was there to some of the questions I had therefore making my research to solving the problems even harder.
+</div>
