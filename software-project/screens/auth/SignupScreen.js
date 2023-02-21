@@ -52,7 +52,7 @@ const SignupScreen = () => {
         const response = await axios.get('https://api.github.com/user', config);
         const { login, name, email } = response.data;
         console.log(response.data);
-        return { email, password: login };
+        return { email, password: login, firstName: login, lastName: login };
       } catch (err) {
         throw err;
       }
@@ -108,10 +108,10 @@ const SignupScreen = () => {
       {isLoading ? <ActivityIndicator color='blueviolet' size='large'></ActivityIndicator> : <>
         <Button disabled={disabled} onPress={() => signupHandler('email')} title='Create Account' style={{ marginBottom: 20, width: '50%' }}></Button>
         <Text className='mb-4 text-xl font-bold'>Or</Text>
-        <Button style={{ marginBottom: 20 }} onPress={() => signupHandler('github')} variant='outlined' leading={GitIcon} title='Signup With GitHub' titleStyle={{ color: 'white' }} className='w-max'></Button>
+        <Button style={{ marginBottom: 20 }} onPress={() => signupHandler('github')} variant='outlined' leading={GitIcon} title='Signup With GitHub' titleStyle={{ color: 'black' }} className='w-max'></Button>
         <View className='flex-row items-center gap-6'>
           <Text>Already Have An Account?</Text>
-          <Button onPress={goToLoginHandler} variant='text' title='Login' titleStyle={{ color: 'white' }}></Button>
+          <Button onPress={goToLoginHandler} variant='text' title='Login' titleStyle={{ color: 'black' }}></Button>
         </View>
       </>}
       <MessageBar></MessageBar>

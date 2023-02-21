@@ -16,7 +16,7 @@ const WelcomeScreen = () => {
       <Image className="h-20 w-20 mb-10" source={require('../../assets/code.png')}></Image>
       <Text className="text-purple font-bold text-3xl mb-20">Welcome To DevHub</Text>
       <View className="flex-row items-center justify-center">
-        <Button onPress={goToLoginHandler} style={{ marginRight: 20 }} title='Login' variant='outlined'></Button>
+        <Button onPress={goToLoginHandler} style={{ marginRight: 20 }} title='Login' titleStyle={{ color: 'black' }} variant='outlined'></Button>
         <Text>Or</Text>
         <Button onPress={goToSignupHandler} style={{ marginLeft: 20 }} title='Signup' variant='contained'></Button>
       </View>

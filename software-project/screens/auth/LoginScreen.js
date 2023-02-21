@@ -108,10 +108,10 @@ const LoginScreen = () => {
       {isLoading ? <ActivityIndicator color='blueviolet' size='large'></ActivityIndicator> : <>
         <Button disabled={disabled} onPress={() => loginHandler('email')} title='Log In' style={{ marginBottom: 20, width: '50%' }}></Button>
         <Text className='mb-4 text-xl font-bold'>Or</Text>
-        <Button onPress={() => loginHandler('github')} style={{ marginBottom: 20 }} variant='outlined' leading={GitIcon} title='Continue With GitHub' className='w-max'></Button>
+        <Button onPress={() => loginHandler('github')} style={{ marginBottom: 20 }} variant='outlined' leading={GitIcon} title='Continue With GitHub' titleStyle={{ color: 'black' }} className='w-max'></Button>
         <View className='flex-row items-center gap-6'>
           <Text>Don't Have An Account?</Text>
-          <Button onPress={goToSignUpHandler} variant='text' title='Create Account'></Button>
+          <Button onPress={goToSignUpHandler} variant='text' title='Create Account' titleStyle={{ color: 'black' }}></Button>
         </View>
       </>}
       <MessageBar></MessageBar>
