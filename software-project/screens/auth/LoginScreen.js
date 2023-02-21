@@ -7,9 +7,6 @@ import { Snackbar } from 'react-native-paper';
 import * as AuthSession from 'expo-auth-session';
 import { GITHUB_CLIENT_ID, GITHUB_CLIENT_SECRET } from '../../keys';
 import axios from 'axios';
-// import * as WebBrowser from 'expo-web-browser';
-
-// WebBrowser.maybeCompleteAuthSession()
 
 const LoginScreen = () => {
 
@@ -29,25 +26,22 @@ const LoginScreen = () => {
       navigation.navigate('Signup');
     };
 
-    const loginHandler  = () => {
+    const requestHandler  = async (data) => {
       try {
-        setIsLoading(true);
-        console.log(form);
+        console.log(data);
         //make api-request;
          
         // set global user and navigate
       } catch (err) {
-        console.log(err);
-      } finally {
-        setIsLoading(false)
+        throw err;
       }
     };
 
     const pressHandler = async () => {
-      const authUrl = `https://github.com/login/oauth/authorize?client_id=${GITHUB_CLIENT_ID}&redirect_uri=${encodeURIComponent(AuthSession.getDefaultReturnUrl())}`;
-      const { type, params } = await AuthSession.startAsync({ authUrl });
-      console.log(type);
-      if(type === 'success') {
+      try {
+        const authUrl = `https://github.com/login/oauth/authorize?client_id=${GITHUB_CLIENT_ID}&redirect_uri=${encodeURIComponent(AuthSession.getDefaultReturnUrl())}`;
+        const { type, params } = await AuthSession.startAsync({ authUrl });
+        if(type !== 'success') throw new Error('An Error Has Occured');
         const tokenUrl = 'https://github.com/login/oauth/access_token';
         const { code } = params;
         const tokenResoponse = await AuthSession.exchangeCodeAsync(
@@ -57,7 +51,32 @@ const LoginScreen = () => {
         console.log(tokenResoponse.accessToken);
         const config = { headers: { Authorization: `Bearer ${tokenResoponse.accessToken}` } }
         const response = await axios.get('https://api.github.com/user', config);
+        const { login, name, email } = response.data;
         console.log(response.data);
+        return { email, password: login };
+      } catch (err) {
+        throw err;
+      }
+    };
+
+    const loginHandler = async (method) => {
+      try {
+        setError();
+        setVisible(false);
+        setIsLoading(true);
+        let githubForm;
+        if(method === 'github') githubForm = await pressHandler();
+        githubForm ? await requestHandler(githubForm) : await requestHandler(form);
+        setVisible(true);
+        setTimeout(() => {
+          setVisible(false);
+        }, 3000)
+      } catch (err) {
+        setError('An Error Has Occured');
+        setVisible(true);
+        console.log(err);
+      } finally {
+        setIsLoading(false);
       }
     }
 
@@ -87,9 +106,9 @@ const LoginScreen = () => {
       <TextInput style={{ width: '100%', marginBottom: 20 }} variant='outlined' autoCapitalize='none' keyboardType='email-address' value={form.email} onChangeText={(e) => { setForm(prev => ({ ...prev, email: e })) }} placeholder='E-Mail Address'></TextInput>
       <TextInput style={{ width: '100%', marginBottom: 20 }} variant='outlined' secureTextEntry={showPassword} value={form.password} onChangeText={(e) => { setForm(prev => ({ ...prev, password: e })) }} placeholder='Password' trailing={PasswordIcon}></TextInput>
       {isLoading ? <ActivityIndicator color='blueviolet' size='large'></ActivityIndicator> : <>
-        <Button disabled={disabled} onPress={loginHandler} title='Log In' style={{ marginBottom: 20, width: '50%' }}></Button>
+        <Button disabled={disabled} onPress={() => loginHandler('email')} title='Log In' style={{ marginBottom: 20, width: '50%' }}></Button>
         <Text className='mb-4 text-xl font-bold'>Or</Text>
-        <Button onPress={pressHandler} style={{ marginBottom: 20 }} variant='outlined' leading={GitIcon} title='Continue With GitHub' className='w-max'></Button>
+        <Button onPress={() => loginHandler('github')} style={{ marginBottom: 20 }} variant='outlined' leading={GitIcon} title='Continue With GitHub' className='w-max'></Button>
         <View className='flex-row items-center gap-6'>
           <Text>Don't Have An Account?</Text>
           <Button onPress={goToSignUpHandler} variant='text' title='Create Account'></Button>
