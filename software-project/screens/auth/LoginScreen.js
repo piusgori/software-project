@@ -1,5 +1,5 @@
 import { View, Text, Image, ActivityIndicator } from 'react-native';
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { AntDesign, Ionicons } from '@expo/vector-icons';
 import { Button, TextInput } from '@react-native-material/core';
 import { useNavigation } from '@react-navigation/native';
@@ -7,11 +7,13 @@ import { Snackbar } from 'react-native-paper';
 import * as AuthSession from 'expo-auth-session';
 import { GITHUB_CLIENT_ID, GITHUB_CLIENT_SECRET } from '../../keys';
 import axios from 'axios';
+import { AuthContext } from '../../services/auth-context';
 
 const LoginScreen = () => {
 
     const GitIcon = () => <AntDesign name='github'></AntDesign>
     const navigation = useNavigation();
+    const { setIsAuth } = useContext(AuthContext);
 
     const [form, setForm] = useState({ email: '', password: '' });
     const [isLoading, setIsLoading] = useState(false);
@@ -70,6 +72,7 @@ const LoginScreen = () => {
         setVisible(true);
         setTimeout(() => {
           setVisible(false);
+          setIsAuth(true);
         }, 3000)
       } catch (err) {
         setError('An Error Has Occured');
