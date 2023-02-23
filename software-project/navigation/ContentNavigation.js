@@ -1,10 +1,10 @@
 import React from 'react'
-import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 import HomeScreen from '../screens/home/HomeScreen';
 import ProfileScreen from '../screens/home/ProfileScreen';
 import { Ionicons } from '@expo/vector-icons';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
-const BottomTab = createMaterialBottomTabNavigator();
+const BottomTab = createBottomTabNavigator();
 
 const ContentNavigation = () => {
   return (
