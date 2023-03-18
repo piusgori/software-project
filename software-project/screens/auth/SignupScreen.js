@@ -1,4 +1,4 @@
-import { View, Text, Image, ActivityIndicator } from 'react-native';
+import { View, Text, Image, ActivityIndicator, ScrollView, StyleSheet } from 'react-native';
 import React, { useContext, useEffect, useState } from 'react';
 import { AntDesign, Ionicons } from '@expo/vector-icons';
 import { Button, TextInput } from '@react-native-material/core';
@@ -100,7 +100,7 @@ const SignupScreen = () => {
     )
 
   return (
-    <View className="flex-1 items-center justify-center bg-white py-20 px-10">
+    <ScrollView contentContainerStyle={styles.container}>
       <Image className="h-20 w-20 mb-5" source={require('../../assets/code.png')}></Image>
       <Text className="font-bold text-3xl mb-20">DevHub</Text>
       <Text className='mb-10 self-start text-4xl font-bold'>Register</Text>
@@ -118,8 +118,18 @@ const SignupScreen = () => {
         </View>
       </>}
       <MessageBar></MessageBar>
-    </View>
+    </ScrollView>
   )
 }
 
 export default SignupScreen;
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: 20,
+    backgroundColor: 'white'
+  }
+})
