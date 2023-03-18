@@ -1,13 +1,16 @@
 import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native'
 import React from 'react'
+import { useNavigation } from '@react-navigation/native';
 
 const Chat = ({ chat }) => {
 
     const minute = new Date(chat.time).getMinutes() < 10 ? `0${new Date(chat.time).getMinutes()}` : new Date(chat.time).getMinutes();
-    const hour = new Date(chat.time).getHours() < 10 ? `0${new Date(chat.time).getHours()}` : new Date(chat.time).getHours(); 
+    const hour = new Date(chat.time).getHours() < 10 ? `0${new Date(chat.time).getHours()}` : new Date(chat.time).getHours();
+
+    const navigation = useNavigation();
 
   return (
-    <TouchableOpacity style={styles.container}>
+    <TouchableOpacity onPress={() => { navigation.navigate('SingleChat', { chat }) }} style={styles.container}>
       <View style={styles.firstContainer}>
         <View style={styles.imageContainer}><Image style={styles.image} source={{ uri: chat.image }}></Image></View>
         <View style={styles.detailsContainer}>

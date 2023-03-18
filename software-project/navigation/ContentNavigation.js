@@ -7,6 +7,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import ChatsScreen from '../screens/home/ChatsScreen';
 import SingleQuestionScreen from '../screens/home/SingleQuestionScreen';
 import SimilarQuestionsScreen from '../screens/home/SimilarQuestionsScreen';
+import SingleChatScreen from '../screens/home/SingleChatScreen';
 
 const BottomTab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -27,6 +28,7 @@ const ContentNavigation = () => {
       <Stack.Screen name='Main' component={BottomNavigator} options={{ headerShown: false }}></Stack.Screen>
       <Stack.Screen name='SingleQuestion' component={SingleQuestionScreen}></Stack.Screen>
       <Stack.Screen name='SimilarQuestions' component={SimilarQuestionsScreen}></Stack.Screen>
+      <Stack.Screen name='SingleChat' component={SingleChatScreen}></Stack.Screen>
     </Stack.Navigator> 
   )
 }
