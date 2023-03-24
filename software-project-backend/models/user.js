@@ -7,7 +7,8 @@ const userSchema = new Schema({
     email: { type: String, default: '' },
     password: { type: String, default: '' },
     githubId: { type: String, default: '' },
-    viewedQuestions: { type: Array, default: [] }
+    viewedQuestions: { type: Array, default: [] },
+    votedAnswers: { type: Array, default: [] },
 }, { timestamps: true });
 
 module.exports = mongoose.model('User', userSchema);

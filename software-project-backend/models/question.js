@@ -7,6 +7,7 @@ const questionSchema = new Schema({
     field: { type: Schema.Types.ObjectId, ref: 'Field', required: true },
     views: { type: Number, default: 0 },
     userName: { type: String, required: true },
+    user: { type: Schema.Types.ObjectId, ref: 'User', required: true },
 }, { timestamps: true });
 
 module.exports = mongoose.model('Question', questionSchema);
