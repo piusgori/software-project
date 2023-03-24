@@ -13,7 +13,7 @@ exports.register = async (req, res, next) => {
             const errorArray = errors.array();
             return next(new HttpError('Validation Error', errorArray[0].msg, 422))
         };
-        if(!password && githubId) return next(new HttpError('Validation Error', 'Please choose a valid authentication method', 422));
+        if(!password && !githubId) return next(new HttpError('Validation Error', 'Please choose a valid authentication method', 422));
         const foundEmail = await User.findOne({ email });
         if(foundEmail) return next(new HttpError('Validation Error', 'The Email Address You Entered Already Exists', 422));
         let hashedPassword = '';
@@ -35,7 +35,7 @@ exports.register = async (req, res, next) => {
 
 exports.login = async (req, res, next) => {
     try {
-        const { email, password, githubId } = req.body;
+        const { email, password = "", githubId = "" } = req.body;
         if(!email && !githubId) return next(new HttpError('Validation Error', 'Please select an authentication method', 422));
         const foundUser = email ? await User.findOne({ email }) : await User.findOne({ githubId });
         if(!foundUser) return next(new HttpError('Validation Error', 'Invalid Login Credentials', 422));
@@ -49,6 +49,7 @@ exports.login = async (req, res, next) => {
         delete loggedUser.githubId;
         res.status(200).json({ message: 'User Logged In Successfully', user: loggedUser });
     } catch (err) {
+        console.log(err);
         return next(new HttpError('Unable to login User'));
     }
 }

@@ -22,7 +22,7 @@ exports.getFields = async (req, res, next) => {
 exports.getTopQuestions = async (req, res, next) => {
     try {
         const id = req.id;
-        const questions = await Question.find().sort({ views: -1 }).limit(10);
+        const questions = await Question.find({ user: { $ne: id } }).sort({ views: -1 }).limit(10);
         const foundUser = await User.findById(id, { password: 0, githubId: 0 });
         questions.forEach(async (q) => {
             if (!foundUser.viewedQuestions.includes(q._id)) {
@@ -40,7 +40,7 @@ exports.getRelatedQuestions = async (req, res, next) => {
     try {
         const id = req.id;
         const { field } = req.params;
-        const questions = await Question.find({ field });
+        const questions = await Question.find({ $and: [{ field: field }, { user: { $ne: id } }] });
         const foundUser = await User.findById(id, { password: 0, githubId: 0 });
         questions.forEach(async (q) => {
             if (!foundUser.viewedQuestions.includes(q._id)) {
@@ -58,7 +58,7 @@ exports.searchQuestions = async (req, res, next) => {
     try {
         const id = req.id;
         const { input } = req.params;
-        const questions = await Question.find({ $or: [{ title: { $regex: input } }, { question: { $regex: input } }] });
+        const questions = await Question.find({ $or: [{ title: { $regex: input } }, { question: { $regex: input } }, { user: { $ne: id } }] });
         const foundUser = await User.findById(id, { password: 0, githubId: 0 });
         questions.forEach(async (q) => {
             if (!foundUser.viewedQuestions.includes(q._id)) {
@@ -128,8 +128,8 @@ exports.answerQuestion = async (req, res, next) => {
 
 exports.getQuestionAnswers = async (req, res, next) => {
     try {
-        const { question } = req.params;
-        const foundAnswers = await Answer.find({ question });
+        const { ques } = req.params;
+        const foundAnswers = await Answer.find({ question: ques });
         res.status(200).json({ message: 'Answers Found', answers: foundAnswers });
     } catch (err) {
         return next(new HttpError('Unable to get answers for a question'));
@@ -162,8 +162,8 @@ exports.unvoteAnswer = async (req, res, next) => {
         if(!foundUser) return next(new HttpError('User Error', 'User not found', 404));
         await Answer.updateOne({ _id: answer }, { $inc: { votes: -1 } });
         await User.updateOne({ _id: id }, { $pull: { votedAnswers: answer } });
-        res.status(200).json({ message: 'Answer voted' });
+        res.status(200).json({ message: 'Answer unvoted' });
     } catch (err) {
-        return next(new HttpError('Unable to vote question'));
+        return next(new HttpError('Unable to unvote question'));
     }
 }

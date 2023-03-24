@@ -4,6 +4,8 @@ const dotenv = require('dotenv');
 const bodyParser = require('body-parser');
 
 const mainRoute = require('./routes/main');
+const adminRoute = require('./routes/admin');
+const authRoute = require('./routes/auth');
 
 const HttpError = require('./models/http-error');
 
@@ -21,6 +23,8 @@ app.use((req, res, next) => {
 });
 
 app.use(mainRoute);
+app.use('/admin', adminRoute);
+app.use('/auth', authRoute);
 
 app.use((req, res, next) => {
     throw new HttpError('The page you are looking for could not be found', null, 404);

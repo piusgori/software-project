@@ -15,6 +15,7 @@ web-build/
 .env
 
 keys.js
+firebase.js
 
 logs
 *.log

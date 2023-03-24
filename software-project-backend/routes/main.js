@@ -29,9 +29,9 @@ router.post('/answer-question', userToken, [
     body('question').isLength({ min: 10 }).withMessage('Please select the question to which this answer belongs')
 ], mainController.answerQuestion);
 
-router.get('question-answers/:question', mainController.getQuestionAnswers);
+router.get('/question-answers/:ques', mainController.getQuestionAnswers);
 
-router.patch('vote/:answer', userToken, mainController.voteAnswer);
+router.patch('/vote/:answer', userToken, mainController.voteAnswer);
 
 router.patch('/unvote/:answer', userToken, mainController.unvoteAnswer);
 
