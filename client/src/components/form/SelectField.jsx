@@ -6,7 +6,7 @@ const FormSelect = styled(Select)(() => ({
     width: '100%',
 }))
 
-const SelectField = ({ key, name, placeholder, onChange, value, label }) => {
+const SelectField = ({ key, name, placeholder, onChange, value, label, options }) => {
     const optionList = options.map((option, index) => (
         <MenuItem key={index} value={option._id}>{option.name}</MenuItem>
     ))

@@ -72,6 +72,17 @@ exports.searchQuestions = async (req, res, next) => {
     }
 };
 
+exports.getSingleQuestion = async (req, res, next) => {
+    try {
+        const { questionId } = req.params;
+        const foundQuestion = await Question.findById(questionId);
+        if(!foundQuestion) return next(new HttpError('Questio Error', 'Question not found', 404));
+        res.status(200).json({ message: 'Question found', question: foundQuestion['_doc'] });
+    } catch (err) {
+        return next(new HttpError('Unable to get question'));
+    }
+}
+
 exports.addQuestion = async (req, res, next) => {
     try {
         const id = req.id;

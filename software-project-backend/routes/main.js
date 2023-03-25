@@ -16,6 +16,8 @@ router.get('/related-questions/:field', userToken, mainController.getRelatedQues
 
 router.get('/search/:input', userToken, mainController.searchQuestions);
 
+router.get('/question/:questionId', mainController.getSingleQuestion);
+
 router.post('/add-question', userToken, [
     body('title').isLength({ min: 3 }).withMessage('Please enter the title of the question. Should be at least 3 characters long.'),
     body('question').isLength({ min: 3 }).withMessage('Please enter the question. Should be at least 3 characters long.'),
