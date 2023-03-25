@@ -7,6 +7,7 @@ import LoginPage from '../pages/auth/LoginPage';
 import SignupPage from '../pages/auth/SignupPage';
 import HomePage from '../pages/home/HomePage';
 import NotFound from '../pages/NotFound';
+import WelcomePage from '../pages/WelcomePage';
 
 const Routing = () => {
 
@@ -22,14 +23,15 @@ const Routing = () => {
 
   return (
     <Routes>
-        <Route path='/' element={<HomePage />} />
+        <Route path='/' element={<WelcomePage />} />
         <Route path='/login' element={<LoginPage />} />
         <Route path='/signup' element={<SignupPage />} />
-        <Route path='*' element={<NotFound />} />
+        <Route path='/home' element={<HomePage />} />
         <Route path='/admin' element={<AdminPage />}>
             <Route path='/admin/dashboard' element={<AdminDashboardPage />} />
             <Route path='/admin/login' element={<AdminLoginPage />} />
         </Route>
+        <Route path='*' element={<NotFound />} />
     </Routes>
   )
 }

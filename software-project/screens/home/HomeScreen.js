@@ -9,7 +9,7 @@ const HomeScreen = () => {
     <View style={styles.container}>
       <Text style={styles.title}>Popular Frameworks</Text>
       <View style={{ marginBottom: 10 }}>
-        <ScrollView showsHorizontalScrollIndicator={false} horizontal>{frameworks.map((each, index) => <TopFramework key={index} framework={each}></TopFramework>)}</ScrollView>
+        {/* <ScrollView showsHorizontalScrollIndicator={false} horizontal>{frameworks.map((each, index) => <TopFramework key={index} framework={each}></TopFramework>)}</ScrollView> */}
       </View>
       <Text style={styles.title}>Top Questions For You</Text>
       <ScrollView>

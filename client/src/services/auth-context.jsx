@@ -1,6 +1,9 @@
 import { createContext, useState } from "react";
 
-export const AuthContext = createContext();
+export const AuthContext = createContext({
+    profile: null,
+    setProfile: (data) => {},
+});
 
 const AuthContextProvider = ({ children }) => {
     const [profile, setProfile] = useState();

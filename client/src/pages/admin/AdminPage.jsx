@@ -1,11 +1,11 @@
 import React from 'react'
 import { Outlet } from 'react-router-dom'
-import AdminBar from '../../components/admin/AdminBar'
+import TopBar from '../../components/interface/TopBar'
 
 const AdminPage = () => {
   return (
     <div>
-        <AdminBar />
+        <TopBar />
         <Outlet />
     </div>
   )

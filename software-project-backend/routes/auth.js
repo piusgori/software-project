@@ -12,4 +12,8 @@ router.post('/register', [
 
 router.post('/login', authController.login);
 
+router.get('/access-token/:code', authController.getAccessToken);
+
+router.get('/user-data', authController.getUserData);
+
 module.exports = router;

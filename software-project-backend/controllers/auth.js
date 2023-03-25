@@ -1,6 +1,7 @@
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const { validationResult } = require('express-validator');
+const axios = require('axios');
 
 const HttpError = require('../models/http-error');
 const User = require('../models/user');
@@ -51,5 +52,30 @@ exports.login = async (req, res, next) => {
     } catch (err) {
         console.log(err);
         return next(new HttpError('Unable to login User'));
+    }
+};
+
+exports.getAccessToken = async (req, res, next) => {
+    try {
+        const { code } = req.params;
+        const redirectUri = `http://localhost:5173/signup`;
+        const params = `?client_id=${process.env.GITHUB_CLIENT_ID}&client_secret=${process.env.GITHUB_CLIENT_SECRET}&code=${code}&redirect_uri=${redirectUri}`;
+        const { data } = await axios.post(`https://github.com/login/oauth/access_token${params}`);
+        console.log(data);
+        res.status(200).json(data);
+    } catch (err) {
+        res.json(err?.response?.data)
+    }
+};
+
+exports.getUserData = async (req, res, next) => {
+    try {
+        const authHeader = req.get('Authorization');
+        const config = { headers: { 'Authorization': authHeader } };
+        const { data } = await axios.get('https://api.github.com/user', config);
+        console.lof(data);
+        res.status(200).json(data);
+    } catch (err) {
+        res.json(err?.response?.data)
     }
 }

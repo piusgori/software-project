@@ -1,7 +1,3 @@
-body {
-    background: #eaecfa;
-  }
-  
   .loader {
     width: 250px;
     height: 50px;
@@ -14,7 +10,7 @@ body {
     font-family: helvetica, arial, sans-serif;
     text-transform: uppercase;
     font-weight: 900;
-    color: #9b45b2;
+    color: #4B0F70;
     letter-spacing: 0.2em;
   }
   
@@ -24,7 +20,7 @@ body {
     display: block;
     width: 15px;
     height: 15px;
-    background: #9b45b2;
+    background: #4B0F70;
     position: absolute;
     animation: load 0.7s infinite alternate ease-in-out;
   }
