@@ -57,8 +57,8 @@ exports.login = async (req, res, next) => {
 
 exports.getAccessToken = async (req, res, next) => {
     try {
-        const { code } = req.params;
-        const redirectUri = `http://localhost:5173/signup`;
+        const { code, path } = req.query;
+        const redirectUri = `http://localhost:5173/${path}`;
         const params = `?client_id=${process.env.GITHUB_CLIENT_ID}&client_secret=${process.env.GITHUB_CLIENT_SECRET}&code=${code}&redirect_uri=${redirectUri}`;
         const { data } = await axios.post(`https://github.com/login/oauth/access_token${params}`);
         console.log(data);
