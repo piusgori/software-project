@@ -6,6 +6,7 @@ import { SERVER_URL } from "../utils/data";
 import { auth, database, firebaseConfig } from "../utils/firebase";
 
 export const AuthContext = createContext({
+    firebaseUser: {},
     profile: null,
     login: (data) => {},
     setProfile: (data) => {},
@@ -96,6 +97,7 @@ const AuthContextProvider = ({ children }) => {
       }
 
     const value = {
+        firebaseUser,
         login,
         profile,
         setProfile,

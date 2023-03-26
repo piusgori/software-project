@@ -6,12 +6,13 @@ import Routing from './Routing';
 const Main = () => {
 
   const [isLoading, setIsLoading] = useState(true);
-  const { getFields } = useContext(AppContext);
+  const { getFields, getFirebaseUsers } = useContext(AppContext);
 
   const initialization = async () => {
     try {
       setIsLoading(true);
       await getFields();
+      await getFirebaseUsers();
     } catch (err) {
       console.log(err);
     } finally {

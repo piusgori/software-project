@@ -1,5 +1,6 @@
 import React, { useContext } from 'react'
 import { Navigate, Route, Routes } from 'react-router-dom';
+import SingleChat from '../components/chats/SingleChat';
 import AdminDashboardPage from '../pages/admin/AdminDashboardPage';
 import AdminLoginPage from '../pages/admin/AdminLoginPage';
 import AdminPage from '../pages/admin/AdminPage';
@@ -43,6 +44,7 @@ const Routing = () => {
         <Route path='/user/:id' element={<ProtectedRoute><ProfilePage /></ProtectedRoute>} />
         <Route path='/search' element={<ProtectedRoute><SearchPage /></ProtectedRoute>} />
         <Route path='/chats' element={<ProtectedRoute><ChatsPage /></ProtectedRoute>} />
+        <Route path='/message' element={<ProtectedRoute><SingleChat /></ProtectedRoute>} />
         <Route path='/admin' element={<AdminPage />}>
             <Route path='/admin/dashboard' element={<AdminDashboardPage />} />
             <Route path='/admin/login' element={<AdminLoginPage />} />

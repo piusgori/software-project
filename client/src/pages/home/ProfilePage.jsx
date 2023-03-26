@@ -80,7 +80,7 @@ const ProfilePage = () => {
     const navigate = useNavigate();
     const { id } = useParams();
     const { profile } = useContext(AuthContext);
-    const { userQuestions, followUser, unfollowUser, getUserDetails } = useContext(AppContext);
+    const { userQuestions, followUser, unfollowUser, getUserDetails, firebaseUsers, firebaseHandleChatSelect, dispatch } = useContext(AppContext);
 
     const [user, setUser] = useState({ firstName: '', lastName: '', email: '', followers: [], following: [], _id: '' });
     const [questions, setQuestions] = useState([]);
@@ -122,6 +122,14 @@ const ProfilePage = () => {
         }
     };
 
+    const textUser = async () => {
+        const foundUser = firebaseUsers.find(e => e.email === user.email);
+        if (!foundUser) return;
+        firebaseHandleChatSelect(foundUser);
+        dispatch({ type: "CHANGE_USER", payload: foundUser });
+        navigate('/chats');
+    }
+
     useEffect(() => {
         initialization();
         //eslint-disable-next-line
@@ -158,7 +166,7 @@ const ProfilePage = () => {
                             <Typography sx={{ color: '#515151' }}>{NumberFormat.formatNumber(user.following.length)}</Typography>
                         </FollowDetails>
                     </FollowContainer>
-                    <Button disabled={profile._id === user._id} startIcon={<MarkChatUnread />} variant='text'>Chat</Button>
+                    <Button onClick={textUser} disabled={profile._id === user._id} startIcon={<MarkChatUnread />} variant='text'>Chat</Button>
                 </ProfileDetails>
             </ProfileContainer>
             <Typography variant='h6' sx={{ color: '#515151', mt: 2, mb: 2 }}>Past Questions</Typography>

@@ -1,14 +1,21 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useReducer, useState } from "react";
 import axios from 'axios';
 import { SERVER_URL } from "../utils/data";
 import { AuthContext } from "./auth-context";
+import { collection, doc, getDoc, getDocs, serverTimestamp, setDoc, updateDoc } from "firebase/firestore";
+import { database } from "../utils/firebase";
 
 export const AppContext = createContext({
+    chatState: {},
     fields: [],
+    firebaseUsers: [],
     answerQuestion: (form) => {},
     askQuestion: (form) => {},
+    dispatch: () => {},
+    firebaseHandleChatSelect: (selectedUser) => {},
     followUser: (id) => {},
     getFields: () => {},
+    getFirebaseUsers: () => {},
     getSimilarQuestions: (id) => {},
     getTopQuestions: () => {},
     getUserDetails: (id) => {},
@@ -22,9 +29,80 @@ export const AppContext = createContext({
 });
 
 const AppContextProvider = ({ children }) => {
-    const { profile, setProfile } = useContext(AuthContext);
+    const { profile, setProfile, firebaseUser } = useContext(AuthContext);
+
+    const INITIAL_CHAT_STATE = { chatId: "", user: {} };
+
+	const chatReducer = (state, action) => {
+		switch (action.type) {
+			case "CHANGE_USER":
+				return {
+					user: action.payload,
+					chatId:
+						firebaseUser?.uid > action.payload?.uid
+							? firebaseUser?.uid + action.payload?.uid
+							: action.payload?.uid + firebaseUser?.uid,
+				};
+
+			default:
+				return state;
+		}
+	};
 
     const [fields, setFields] = useState([]);
+    const [firebaseUsers, setFirebaseUsers] = useState([]);
+    const [chatState, dispatch] = useReducer(chatReducer, INITIAL_CHAT_STATE);
+
+    const getFirebaseUsers = async () => {
+        try {
+            const response = await getDocs(collection(database, 'newUsers'));
+            const theUsers = [];
+            response.forEach((d) => {
+                theUsers.push(d.data());
+            });
+            setFirebaseUsers(theUsers);
+        } catch (err) {
+            throw err;
+        }
+    };
+
+    const firebaseHandleChatSelect = async (selectedUser) => {
+		const combination =
+			firebaseUser?.uid > selectedUser?.uid
+				? firebaseUser?.uid + selectedUser?.uid
+				: selectedUser?.uid + firebaseUser?.uid;
+		try {
+			const res = await getDoc(doc(database, "chats", combination));
+
+			if (!res.exists()) {
+				await setDoc(doc(database, "chats", combination), { messages: [] });
+
+				await updateDoc(doc(database, "userChats", firebaseUser.uid), {
+					[combination + ".userInfo"]: {
+						uid: selectedUser.uid,
+						displayName: selectedUser.displayName,
+						photoURL: selectedUser.photoURL,
+						email: selectedUser.email,
+					},
+					[combination + ".date"]: serverTimestamp(),
+				});
+
+				await updateDoc(doc(database, "userChats", selectedUser.uid), {
+					[combination + ".userInfo"]: {
+						uid: firebaseUser.uid,
+						displayName: firebaseUser.displayName || firebaseUser.email,
+						photoURL:
+							firebaseUser.photoURL ||
+							"https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png",
+						email: firebaseUser.email,
+					},
+					[combination + ".date"]: serverTimestamp(),
+				});
+			}
+		} catch (err) {
+			console.log(err);
+		}
+	};
 
     const getFields = async () => {
         try {
@@ -163,9 +241,14 @@ const AppContextProvider = ({ children }) => {
     const value = {
         answerQuestion,
         askQuestion,
+        chatState,
+        dispatch,
         fields,
+        firebaseHandleChatSelect,
+        firebaseUsers,
         followUser,
         getFields,
+        getFirebaseUsers,
         getSimilarQuestions,
         getTopQuestions,
         getUserDetails,
