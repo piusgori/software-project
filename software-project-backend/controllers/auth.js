@@ -101,7 +101,7 @@ exports.unfollowUser = async (req, res, next) => {
 exports.getAccessToken = async (req, res, next) => {
     try {
         const { code, path } = req.query;
-        const redirectUri = `http://localhost:5173/${path}`;
+        const redirectUri = `${process.env.CLIENT_URL}/${path}`;
         const params = `?client_id=${process.env.GITHUB_CLIENT_ID}&client_secret=${process.env.GITHUB_CLIENT_SECRET}&code=${code}&redirect_uri=${redirectUri}`;
         const { data } = await axios.post(`https://github.com/login/oauth/access_token${params}`);
         console.log(data);
