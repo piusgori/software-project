@@ -84,7 +84,7 @@ const AskQuestionPage = () => {
         <TopBar />
         <OverallContainer>
             <AuthCard>
-                <Typography sx={{ color: '#515151', mb: 5 }} variant='h6'>Login To Your Account</Typography>
+                <Typography sx={{ color: '#515151', mb: 5 }} variant='h6'>Ask Question</Typography>
                 {Inputs}
                 {!isLoading && <FormButton onClick={addQuestionHandler} variant='contained' disableElevation disabled={buttonDisabled}>Add Question</FormButton>}
                 {isLoading && <CircularProgress />}

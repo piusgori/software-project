@@ -3,7 +3,7 @@ import React, { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../services/auth-context';
 import { styled } from '@mui/material/styles';
-import { Person } from '@mui/icons-material';
+import { Person, Search } from '@mui/icons-material';
 
 const ProfileButton = styled(Button)(() => ({
   color: 'white'
@@ -21,6 +21,7 @@ const TopBar = () => {
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 4 }}>
             {!profile && <Button onClick={() => { navigate('/login') }} variant='text' sx={{ color: 'white' }}>Login</Button>}
             {!profile && <Button onClick={() => { navigate('/signup') }} variant='text' sx={{ color: 'white' }}>Signup</Button>}
+            {profile && <ProfileButton onClick={(() => { navigate('/search') })} startIcon={<Search />} variant='text'>Search</ProfileButton>}
             {profile && <ProfileButton startIcon={<Person />} variant='text'>{profile?.firstName}</ProfileButton>}
           </Box>
         </Toolbar>

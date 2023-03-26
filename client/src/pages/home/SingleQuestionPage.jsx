@@ -100,7 +100,7 @@ const SingleQuestionPage = () => {
 
     const [isLoading, setIsLoading] = useState(true);
     const [answer, setAnswer] = useState('');
-    const [question, setQuestion] = useState({ title: '', question: '', views: '', createdAt: '', field: '' });
+    const [question, setQuestion] = useState({ title: '', question: '', views: '', createdAt: '', field: '', user: '' });
     const [answers, setAnswers] = useState([]);
     const [error, setError] = useState(false);
     const [errorMessage, setErrorMessage] = useState('');
@@ -192,7 +192,7 @@ const SingleQuestionPage = () => {
                             <Comment color='primary' />
                             <Text>{answers.length} Answers</Text>
                         </Details>
-                        <Button startIcon={<Person />} variant='text'>Profile</Button>
+                        <Button onClick={() => { navigate(`/user/${question.user}`) }} startIcon={<Person />} variant='text'>Profile</Button>
                         <Button onClick={() => { navigate(`/similar-questions/${question.field}`) }} startIcon={<AddCard />} variant='text'>Similar Questions</Button>
                     </ActionsContainer>
                 </BelowContainer>

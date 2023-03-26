@@ -7,6 +7,8 @@ import LoginPage from '../pages/auth/LoginPage';
 import SignupPage from '../pages/auth/SignupPage';
 import AskQuestionPage from '../pages/home/AskQuestionPage';
 import HomePage from '../pages/home/HomePage';
+import ProfilePage from '../pages/home/ProfilePage';
+import SearchPage from '../pages/home/SearchPage';
 import SimilarQuestionsPage from '../pages/home/SimilarQuestionsPage';
 import SingleQuestionPage from '../pages/home/SingleQuestionPage';
 import NotFound from '../pages/NotFound';
@@ -37,6 +39,8 @@ const Routing = () => {
         <Route path='/ask-question' element={<ProtectedRoute><AskQuestionPage /></ProtectedRoute>} />
         <Route path='/question/:id' element={<ProtectedRoute><SingleQuestionPage /></ProtectedRoute>} />
         <Route path='/similar-questions/:id' element={<ProtectedRoute><SimilarQuestionsPage /></ProtectedRoute>} />
+        <Route path='/user/:id' element={<ProtectedRoute><ProfilePage /></ProtectedRoute>} />
+        <Route path='/search' element={<ProtectedRoute><SearchPage /></ProtectedRoute>} />
         <Route path='/admin' element={<AdminPage />}>
             <Route path='/admin/dashboard' element={<AdminDashboardPage />} />
             <Route path='/admin/login' element={<AdminLoginPage />} />

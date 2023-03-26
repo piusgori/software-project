@@ -7,12 +7,17 @@ export const AppContext = createContext({
     fields: [],
     answerQuestion: (form) => {},
     askQuestion: (form) => {},
+    followUser: (id) => {},
     getFields: () => {},
     getSimilarQuestions: (id) => {},
     getTopQuestions: () => {},
+    getUserDetails: (id) => {},
     questionAnswers: (id) => {},
+    search: (inp) => {},
     singleQuestion: (id) => {},
+    unfollowUser: (id) => {},
     unvoteAnswer: (id) => {},
+    userQuestions: (id) => {},
     voteAnswer: (id) => {},
 });
 
@@ -105,18 +110,71 @@ const AppContextProvider = ({ children }) => {
         } catch (err) {
             throw err;
         }
+    };
+
+    const getUserDetails = async (id) => {
+        try {
+            const { data } = await axios.get(`${SERVER_URL}/auth/user/${id}`);
+            return data.user;
+        } catch (err) {
+            throw err;
+        }
+    };
+
+    const userQuestions = async (id) => {
+        try {
+            const { data } = await axios.get(`${SERVER_URL}/user-questions/${id}`);
+            return data.questions;
+        } catch (err) {
+            throw err;
+        }
+    }
+
+    const followUser = async (id) => {
+        try {
+            const config = { headers: { 'Authorization': `Bearer ${profile?.token}` } };
+            await axios.patch(`${SERVER_URL}/auth/follow/${id}`, {}, config);
+            setProfile(prev => ({ ...prev, following: [...prev.following, id] }));
+        } catch (err) {
+            throw err;
+        }
+    };
+
+    const unfollowUser = async (id) => {
+        try {
+            const config = { headers: { 'Authorization': `Bearer ${profile?.token}` } };
+            await axios.patch(`${SERVER_URL}/auth/unfollow/${id}`, {}, config);
+            setProfile(prev => ({ ...prev, following: prev.following.filter(e => e !== id) }));
+        } catch (err) {
+            throw err;
+        }
+    };
+
+    const search = async (inp) => {
+        try {
+            const config = { headers: { 'Authorization': `Bearer ${profile?.token}` } };
+            const { data } = await axios.get(`${SERVER_URL}/search/${inp}`, config);
+            return data.questions;
+        } catch (err) {
+            throw err;
+        }
     }
 
     const value = {
         answerQuestion,
         askQuestion,
         fields,
+        followUser,
         getFields,
         getSimilarQuestions,
         getTopQuestions,
+        getUserDetails,
         questionAnswers,
+        search,
         singleQuestion,
+        unfollowUser,
         unvoteAnswer,
+        userQuestions,
         voteAnswer,
     };
     return <AppContext.Provider value={value}>{children}</AppContext.Provider>
