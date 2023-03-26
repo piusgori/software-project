@@ -6,6 +6,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { AppContext } from '../../services/app-context';
 import Spinner from '../../components/interface/Spinner';
 import Question from '../../components/home/Question';
+import AppDrawer from '../../components/interface/AppDrawer';
 
 const MainBox = styled(Box)(() => ({
     height: '100%',
@@ -60,6 +61,7 @@ const SimilarQuestionsPage = () => {
   return (
     <MainBox>
         <TopBar />
+        <AppDrawer />
         <TopContainer>
             <Typography variant='h6' sx={{ color: '#515151' }}>Similar Questions</Typography>
             <Button onClick={() => { navigate('/ask-question') }} variant='contained'>Ask Question</Button>

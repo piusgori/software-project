@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { styled } from '@mui/material/styles';
-import { Alert, Box, Button, IconButton, Paper, Snackbar, TextField, Typography } from '@mui/material';
+import { styled, useTheme } from '@mui/material/styles';
+import { Alert, Box, Button, IconButton, Paper, Snackbar, TextField, Typography, useMediaQuery } from '@mui/material';
 import TopBar from '../../components/interface/TopBar';
 import { AddCard, ArrowBack, Comment, Person, Send } from '@mui/icons-material';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -9,6 +9,7 @@ import { AppContext } from '../../services/app-context';
 import * as NumberFormat from 'easy-number-formatter';
 import moment from 'moment';
 import Spinner from '../../components/interface/Spinner';
+import AppDrawer from '../../components/interface/AppDrawer';
 
 const MainBox = styled(Box)(() => ({
     height: '100%',
@@ -45,10 +46,13 @@ const Bottom = styled(Box)(() => ({
     justifyContent: 'space-between'
 }));
 
-const Details = styled(Box)(() => ({
+const Details = styled(Box)(({ theme }) => ({
     display: 'flex',
     alignItems: 'center',
-    gap: 5
+    gap: 5,
+    [theme.breakpoints.down('md')]: {
+        gap: 2
+    }
 }));
 
 const Text = styled(Typography)(() => ({
@@ -97,6 +101,8 @@ const SingleQuestionPage = () => {
     const navigate = useNavigate();
     const { id } = useParams();
     const { questionAnswers, singleQuestion, answerQuestion } = useContext(AppContext);
+    const theme = useTheme();
+    const isScreenSmall = useMediaQuery(theme.breakpoints.down('md'));
 
     const [isLoading, setIsLoading] = useState(true);
     const [answer, setAnswer] = useState('');
@@ -166,6 +172,7 @@ const SingleQuestionPage = () => {
   return (
     <MainBox>
         <TopBar />
+        <AppDrawer />
         <TopContainer>
             <IconButton onClick={() => { navigate(-1) }}><ArrowBack color='primary' /></IconButton>
             <Typography variant='h6' sx={{ color: '#515151' }}>Question</Typography>
@@ -176,11 +183,11 @@ const SingleQuestionPage = () => {
                 <Title variant='h5'>{question.title}</Title>
                 <Bottom>
                     <Details>
-                        <Text variant='body1'>Number Of Views:</Text>
+                        <Text variant='body1'>{!isScreenSmall && 'Number Of '}Views:</Text>
                         <DetText variant='body1'>{question.views ? NumberFormat.formatNumber(question.views) : ''}</DetText>
                     </Details>
                     <Details>
-                        <Text variant='body1'>Time Posted:</Text>
+                        <Text variant='body1'>Time{!isScreenSmall && ' Posted'}:</Text>
                         <DetText variant='body1'>{question.createdAt ? moment(question.createdAt).fromNow() : ''}</DetText>
                     </Details>
                 </Bottom>
@@ -190,10 +197,10 @@ const SingleQuestionPage = () => {
                     <ActionsContainer>
                         <Details>
                             <Comment color='primary' />
-                            <Text>{answers.length} Answers</Text>
+                            <Text>{answers.length} {!isScreenSmall && 'Answers'}</Text>
                         </Details>
                         <Button onClick={() => { navigate(`/user/${question.user}`) }} startIcon={<Person />} variant='text'>Profile</Button>
-                        <Button onClick={() => { navigate(`/similar-questions/${question.field}`) }} startIcon={<AddCard />} variant='text'>Similar Questions</Button>
+                        <Button onClick={() => { navigate(`/similar-questions/${question.field}`) }} startIcon={<AddCard />} variant='text'>Similar {!isScreenSmall && 'Questions'}</Button>
                     </ActionsContainer>
                 </BelowContainer>
             </Overall>

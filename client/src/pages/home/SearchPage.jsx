@@ -5,6 +5,7 @@ import TopBar from '../../components/interface/TopBar';
 import Spinner from '../../components/interface/Spinner';
 import Question from '../../components/home/Question';
 import { AppContext } from '../../services/app-context';
+import AppDrawer from '../../components/interface/AppDrawer';
 
 const MainBox = styled(Box)(() => ({
     height: '100%',
@@ -58,6 +59,7 @@ const SearchPage = () => {
   return (
     <MainBox>
         <TopBar />
+        <AppDrawer/>
         <TopContainer>
             <FormInput placeholder='Search...' value={input} onChange={(e) => { setInput(e.target.value) }}></FormInput>
             <Button onClick={searchHandler} variant='contained' disableElevation>Search</Button>

@@ -6,6 +6,7 @@ import AdminPage from '../pages/admin/AdminPage';
 import LoginPage from '../pages/auth/LoginPage';
 import SignupPage from '../pages/auth/SignupPage';
 import AskQuestionPage from '../pages/home/AskQuestionPage';
+import ChatsPage from '../pages/home/ChatsPage';
 import HomePage from '../pages/home/HomePage';
 import ProfilePage from '../pages/home/ProfilePage';
 import SearchPage from '../pages/home/SearchPage';
@@ -41,6 +42,7 @@ const Routing = () => {
         <Route path='/similar-questions/:id' element={<ProtectedRoute><SimilarQuestionsPage /></ProtectedRoute>} />
         <Route path='/user/:id' element={<ProtectedRoute><ProfilePage /></ProtectedRoute>} />
         <Route path='/search' element={<ProtectedRoute><SearchPage /></ProtectedRoute>} />
+        <Route path='/chats' element={<ProtectedRoute><ChatsPage /></ProtectedRoute>} />
         <Route path='/admin' element={<AdminPage />}>
             <Route path='/admin/dashboard' element={<AdminDashboardPage />} />
             <Route path='/admin/login' element={<AdminLoginPage />} />

@@ -2,13 +2,14 @@ import React, { useContext, useEffect, useState } from 'react';
 import { styled } from '@mui/material/styles';
 import { Alert, Box, Button, IconButton, Snackbar, Typography } from '@mui/material';
 import TopBar from '../../components/interface/TopBar';
-import { ArrowBack } from '@mui/icons-material';
+import { ArrowBack, MarkChatUnread } from '@mui/icons-material';
 import { useNavigate, useParams } from 'react-router-dom';
 import { AuthContext } from '../../services/auth-context';
 import { AppContext } from '../../services/app-context';
 import Spinner from '../../components/interface/Spinner';
 import * as NumberFormat from 'easy-number-formatter';
 import Question from '../../components/home/Question';
+import AppDrawer from '../../components/interface/AppDrawer';
 
 const MainBox = styled(Box)(() => ({
     height: '100%',
@@ -36,11 +37,15 @@ const ProfileContainer = styled(Box)(() => ({
     gap: 20
 }));
 
-const ImageReplacement = styled(Box)(() => ({
+const ImageReplacement = styled(Box)(({ theme }) => ({
     height: '150px',
     width: '150px',
     borderRadius: '50%',
-    backgroundColor: '#4B0F70'
+    backgroundColor: '#4B0F70',
+    [theme.breakpoints.down('md')]: {
+        height: '75px',
+        width: '75px',
+    }
 }));
 
 const ProfileDetails = styled(Box)(() => ({
@@ -77,7 +82,7 @@ const ProfilePage = () => {
     const { profile } = useContext(AuthContext);
     const { userQuestions, followUser, unfollowUser, getUserDetails } = useContext(AppContext);
 
-    const [user, setUser] = useState({ firstName: '', lastName: '', email: '', followers: [], following: [] });
+    const [user, setUser] = useState({ firstName: '', lastName: '', email: '', followers: [], following: [], _id: '' });
     const [questions, setQuestions] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState(false);
@@ -120,11 +125,12 @@ const ProfilePage = () => {
     useEffect(() => {
         initialization();
         //eslint-disable-next-line
-      }, [])
+      }, [id]);
 
   return (
     <MainBox>
         <TopBar />
+        <AppDrawer />
         <TopContainer>
             <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
                 <IconButton onClick={() => { navigate(-1) }}><ArrowBack color='primary' /></IconButton>
@@ -139,7 +145,7 @@ const ProfilePage = () => {
                 <ProfileDetails>
                     <ProfileTop>
                         <Title variant='h5'>{user.firstName} {user.lastName}</Title>
-                        <Button onClick={followSubmit} sx={{ borderRadius: 20 }} variant='contained' disableElevation>{profile.following.find(e => e === id) ? 'Unfollow' : 'Follow'}</Button>
+                        <Button disabled={profile._id === user._id} onClick={followSubmit} sx={{ borderRadius: 20 }} variant='contained' disableElevation>{profile.following.find(e => e === id) ? 'Unfollow' : 'Follow'}</Button>
                     </ProfileTop>
                     <Typography sx={{ color: '#515151', mb: 2 }}>{user.email}</Typography>
                     <FollowContainer>
@@ -152,6 +158,7 @@ const ProfilePage = () => {
                             <Typography sx={{ color: '#515151' }}>{NumberFormat.formatNumber(user.following.length)}</Typography>
                         </FollowDetails>
                     </FollowContainer>
+                    <Button disabled={profile._id === user._id} startIcon={<MarkChatUnread />} variant='text'>Chat</Button>
                 </ProfileDetails>
             </ProfileContainer>
             <Typography variant='h6' sx={{ color: '#515151', mt: 2, mb: 2 }}>Past Questions</Typography>

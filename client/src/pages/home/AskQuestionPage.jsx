@@ -5,6 +5,7 @@ import TopBar from '../../components/interface/TopBar';
 import { AppContext } from '../../services/app-context';
 import { useForm } from '../../hooks/useForm';
 import { useNavigate } from 'react-router-dom';
+import AppDrawer from '../../components/interface/AppDrawer';
 
 const MainBox = styled(Box)(() => ({
     height: '100vh',
@@ -82,6 +83,7 @@ const AskQuestionPage = () => {
   return (
     <MainBox>
         <TopBar />
+        <AppDrawer />
         <OverallContainer>
             <AuthCard>
                 <Typography sx={{ color: '#515151', mb: 5 }} variant='h6'>Ask Question</Typography>
