@@ -7,6 +7,8 @@ import LoginPage from '../pages/auth/LoginPage';
 import SignupPage from '../pages/auth/SignupPage';
 import AskQuestionPage from '../pages/home/AskQuestionPage';
 import HomePage from '../pages/home/HomePage';
+import SimilarQuestionsPage from '../pages/home/SimilarQuestionsPage';
+import SingleQuestionPage from '../pages/home/SingleQuestionPage';
 import NotFound from '../pages/NotFound';
 import WelcomePage from '../pages/WelcomePage';
 import { AuthContext } from '../services/auth-context';
@@ -33,6 +35,8 @@ const Routing = () => {
         <Route path='/signup' element={<SignupPage />} />
         <Route path='/home' element={<ProtectedRoute><HomePage /></ProtectedRoute>} />
         <Route path='/ask-question' element={<ProtectedRoute><AskQuestionPage /></ProtectedRoute>} />
+        <Route path='/question/:id' element={<ProtectedRoute><SingleQuestionPage /></ProtectedRoute>} />
+        <Route path='/similar-questions/:id' element={<ProtectedRoute><SimilarQuestionsPage /></ProtectedRoute>} />
         <Route path='/admin' element={<AdminPage />}>
             <Route path='/admin/dashboard' element={<AdminDashboardPage />} />
             <Route path='/admin/login' element={<AdminLoginPage />} />

@@ -7,7 +7,7 @@ import { useForm } from '../../hooks/useForm';
 import { useNavigate } from 'react-router-dom';
 
 const MainBox = styled(Box)(() => ({
-    height: '100%',
+    height: '100vh',
     width: '100%'
 }));
 
@@ -17,7 +17,7 @@ const OverallContainer = styled(Box)(() => ({
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: '#ece8ef',
-    minHeight: '100vh'
+    height: '100%'
 }));
 
 const AuthCard = styled(Card)(() => ({

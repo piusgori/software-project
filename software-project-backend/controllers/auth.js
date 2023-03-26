@@ -55,6 +55,49 @@ exports.login = async (req, res, next) => {
     }
 };
 
+exports.getUserDetails = async (req, res, next) => {
+    try {
+        const { id } = req.params;
+        const foundUser = await User.findById(id, { password: 0, githubId: 0 });
+        if(!foundUser) return next(new HttpError('User Error', 'User not found', 404));
+        res.status(200).json({ message: 'User found', user: foundUser['_doc'] });
+    } catch (err) {
+        return next(new HttpError('Unable to get user details'));
+    }
+};
+
+exports.followUser = async (req, res, next) => {
+    try {
+        const id = req.id;
+        const { userId } = req.params;
+        const foundProfile = await User.findById(id);
+        if(!foundProfile) return next(new HttpError('Profile Error', 'Profile Not Found', 404));
+        const foundUser = await User.findById(userId);
+        if(!foundUser) return next(new HttpError('User Error', 'User Not Found', 404));
+        await User.updateOne({ _id: userId }, { $addToSet: { followers: id } });
+        await User.updateOne({ _id: id }, { $addToSet: { following: userId } });
+        res.status(200).json({ message: 'User Followed' });
+    } catch (err) {
+        return next(new HttpError('Unable to follow user'));
+    }
+};
+
+exports.unfollowUser = async (req, res, next) => {
+    try {
+        const id = req.id;
+        const { userId } = req.params;
+        const foundProfile = await User.findById(id);
+        if(!foundProfile) return next(new HttpError('Profile Error', 'Profile Not Found', 404));
+        const foundUser = await User.findById(userId);
+        if(!foundUser) return next(new HttpError('User Error', 'User Not Found', 404));
+        await User.updateOne({ _id: userId }, { $pull: { followers: id } });
+        await User.updateOne({ _id: id }, { $pull: { following: userId } });
+        res.status(200).json({ message: 'User Unfollowed' });
+    } catch (err) {
+        return next(new HttpError('Unable to unfollow user'));
+    }
+};
+
 exports.getAccessToken = async (req, res, next) => {
     try {
         const { code, path } = req.query;

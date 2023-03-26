@@ -4,6 +4,7 @@ import { styled } from '@mui/material/styles';
 import { Schedule, Visibility } from '@mui/icons-material';
 import * as NumberFormat from 'easy-number-formatter';
 import moment from 'moment';
+import { useNavigate } from 'react-router-dom';
 
 const Overall = styled(Paper)(() => ({
     padding: 12,
@@ -13,7 +14,8 @@ const Overall = styled(Paper)(() => ({
     flexDirection: 'column',
     gap: 20,
     marginTop: 20,
-    marginBottom: 20
+    marginBottom: 20,
+    cursor: 'pointer',
 }));
 
 const Title = styled(Typography)(() => ({
@@ -40,16 +42,18 @@ const Details = styled(Box)(() => ({
 
 const Text = styled(Typography)(() => ({
     color: '#515151'
-}))
+}));
 
 const Question = ({ ques }) => {
 
-    const { title, question, createdAt, views } = ques;
+    const { title, question, createdAt, views, _id } = ques;
     const formattedNumber = NumberFormat.formatNumber(views);
     const timeago = moment(createdAt).fromNow();
 
+    const navigate = useNavigate();
+
   return (
-    <Overall elevation={0}>
+    <Overall onClick={() => { navigate(`/question/${_id}`) }} elevation={0}>
         <Title variant='h5'>{title}</Title>
         <QuestionText variant='subtitle1'>{question}</QuestionText>
         <Bottom>
