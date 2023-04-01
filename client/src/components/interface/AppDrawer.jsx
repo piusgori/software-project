@@ -4,8 +4,9 @@ import { InterfaceContext } from '../../services/interface-context';
 import { styled } from '@mui/material/styles';
 import LogoImage from '../../assets/icon.svg';
 import { useNavigate } from 'react-router-dom';
-import { Forum, Home, Person, Search } from '@mui/icons-material';
+import { Code, Forum, Home, People, Person, Search } from '@mui/icons-material';
 import { AuthContext } from '../../services/auth-context';
+import { AdminContext } from '../../services/admin-context';
 
 const DrawerContainer = styled(Box)(() => ({
   width: 300,
@@ -41,6 +42,7 @@ const AppDrawer = () => {
 
   const { drawerOpen, closeDrawer } = useContext(InterfaceContext);
   const { profile } = useContext(AuthContext);
+  const { admin } = useContext(AdminContext);
   const navigate = useNavigate();
 
   const navigattionHandler = (route) => {
@@ -56,29 +58,45 @@ const AppDrawer = () => {
         </ImageBox>
         <List sx={{ px: 2 }}>
           <ListItem sx={{ backgroundColor: 'white', my: 1 }}>
-            <ListItemButton onClick={() => { navigattionHandler('/home') }}>
+            <ListItemButton onClick={() => { navigattionHandler(admin ? '/admin/dashboard' : '/home') }}>
               <ListItemIcon><Home /></ListItemIcon>
               <ListItemText primary='Home'></ListItemText>
             </ListItemButton>
           </ListItem>
-          <ListItem sx={{ backgroundColor: 'white', my: 1 }}>
-            <ListItemButton onClick={() => { navigattionHandler('/search') }}>
-              <ListItemIcon><Search /></ListItemIcon>
-              <ListItemText primary='Search'></ListItemText>
-            </ListItemButton>
-          </ListItem>
-          <ListItem sx={{ backgroundColor: 'white', my: 1 }}>
-            <ListItemButton onClick={() => { navigattionHandler('/chats') }}>
-              <ListItemIcon><Forum /></ListItemIcon>
-              <ListItemText primary='Chats'></ListItemText>
-            </ListItemButton>
-          </ListItem>
-          <ListItem sx={{ backgroundColor: 'white', my: 1 }}>
-            <ListItemButton onClick={() => { navigattionHandler(`/user/${profile._id}`) }}>
-              <ListItemIcon><Person /></ListItemIcon>
-              <ListItemText primary='Profile'></ListItemText>
-            </ListItemButton>
-          </ListItem>
+          {profile && <>
+            <ListItem sx={{ backgroundColor: 'white', my: 1 }}>
+              <ListItemButton onClick={() => { navigattionHandler('/search') }}>
+                <ListItemIcon><Search /></ListItemIcon>
+                <ListItemText primary='Search'></ListItemText>
+              </ListItemButton>
+            </ListItem>
+            <ListItem sx={{ backgroundColor: 'white', my: 1 }}>
+              <ListItemButton onClick={() => { navigattionHandler('/chats') }}>
+                <ListItemIcon><Forum /></ListItemIcon>
+                <ListItemText primary='Chats'></ListItemText>
+              </ListItemButton>
+            </ListItem>
+            <ListItem sx={{ backgroundColor: 'white', my: 1 }}>
+              <ListItemButton onClick={() => { navigattionHandler(`/user/${profile._id}`) }}>
+                <ListItemIcon><Person /></ListItemIcon>
+                <ListItemText primary='Profile'></ListItemText>
+              </ListItemButton>
+            </ListItem>
+          </>}
+          {admin && <>
+            <ListItem sx={{ backgroundColor: 'white', my: 1 }}>
+              <ListItemButton onClick={() => { navigattionHandler('/admin/users') }}>
+                <ListItemIcon><People /></ListItemIcon>
+                <ListItemText primary='Users'></ListItemText>
+              </ListItemButton>
+            </ListItem>
+            <ListItem sx={{ backgroundColor: 'white', my: 1 }}>
+              <ListItemButton onClick={() => { navigattionHandler('/admin/add-field') }}>
+                <ListItemIcon><Code /></ListItemIcon>
+                <ListItemText primary='Add Field'></ListItemText>
+              </ListItemButton>
+            </ListItem>
+          </>}
         </List>
       </DrawerContainer>
     </Drawer>

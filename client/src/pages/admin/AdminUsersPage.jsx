@@ -39,11 +39,10 @@ const InnerContainer = styled(Box)(() => ({
   justifyContent: 'center'
 }))
 
-const AdminDashboardPage = () => {
+const AdminUsersPage = () => {
+  const { getUsers } = useContext(AdminContext);
 
-  const { getQuestions } = useContext(AdminContext);
-
-  const [questions, setQuestions] = useState([]);
+  const [users, setUsers] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
@@ -53,8 +52,8 @@ const AdminDashboardPage = () => {
       setIsLoading(true);
       setError(false);
       setErrorMessage('');
-      const resQuestions = await getQuestions();
-      setQuestions(resQuestions);
+      const resUsers = await getUsers();
+      setUsers(resUsers);
     } catch (err) {
       const errMessage = err?.response?.data?.content || err?.response?.data?.message || err?.response?.message || err?.message;
       setError(true);
@@ -74,24 +73,24 @@ const AdminDashboardPage = () => {
       <AppDrawer />
       <InnerContainer>
         {isLoading && <CircularProgress sx={{ alignSelf: 'center' }}></CircularProgress>}
-        {!isLoading && questions.length === 0 && <Typography sx={{ color: '#515151' }} variant='h4'>No Questions Found</Typography>}
-        {!isLoading && questions.length > 0 && <TableContainer component={Paper}>
+        {!isLoading && users.length === 0 && <Typography sx={{ color: '#515151' }} variant='h4'>No Questions Found</Typography>}
+        {!isLoading && users.length > 0 && <TableContainer component={Paper}>
           <Table sx={{ minWidth: 700 }} aria-label="customized table">
             <TableHead>
               <TableRow>
-                <StyledTableCell>Title</StyledTableCell>
-                <StyledTableCell align="right">Field</StyledTableCell>
-                <StyledTableCell align="right">Views</StyledTableCell>
-                <StyledTableCell align="right">User</StyledTableCell>
+                <StyledTableCell>Name</StyledTableCell>
+                <StyledTableCell align="right">email</StyledTableCell>
+                <StyledTableCell align="right">followers</StyledTableCell>
+                <StyledTableCell align="right">following</StyledTableCell>
               </TableRow>
             </TableHead>
             <TableBody>
-              {questions.map((row) => 
+              {users.map((row) => 
                 <StyledTableRow key={row._id}>
-                  <StyledTableCell component="th" scope="row">{row.title}</StyledTableCell>
-                  <StyledTableCell align="right">{row.field}</StyledTableCell>
-                  <StyledTableCell align="right">{row.views}</StyledTableCell>
-                  <StyledTableCell align="right">{row.userName}</StyledTableCell>
+                  <StyledTableCell component="th" scope="row">{row.firstName} {row.lastName}</StyledTableCell>
+                  <StyledTableCell align="right">{row.email}</StyledTableCell>
+                  <StyledTableCell align="right">{row.followers.length}</StyledTableCell>
+                  <StyledTableCell align="right">{row.following.length}</StyledTableCell>
                 </StyledTableRow>)}
             </TableBody>
           </Table>
@@ -104,4 +103,4 @@ const AdminDashboardPage = () => {
   )
 }
 
-export default AdminDashboardPage
+export default AdminUsersPage

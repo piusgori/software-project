@@ -21,7 +21,10 @@ const Heading = styled(Typography)(() => ({
     fontWeight: '500',
 }));
 
-const Image = styled('img')(() => ({}))
+const Image = styled('img')(() => ({
+    height: '250px',
+    width: '250px'
+}))
 
 const WelcomePage = () => {
   return (

@@ -16,10 +16,14 @@ import SingleQuestionPage from '../pages/home/SingleQuestionPage';
 import NotFound from '../pages/NotFound';
 import WelcomePage from '../pages/WelcomePage';
 import { AuthContext } from '../services/auth-context';
+import { AdminContext } from '../services/admin-context';
+import AdminUsersPage from '../pages/admin/AdminUsersPage';
+import AddFieldPage from '../pages/admin/AddFieldPage';
 
 const Routing = () => {
 
     const { profile } = useContext(AuthContext);
+    const { admin } = useContext(AdminContext);
 
     const ProtectedRoute = ({ children }) => {
         if(!profile) return <Navigate to='/login' />;
@@ -27,8 +31,7 @@ const Routing = () => {
     }
 
     const ProtectedAdminRoute = ({ children }) => {
-        const isAdmin = false;
-        if(!isAdmin) return <Navigate to='/admin/login' />;
+        if(!admin) return <Navigate to='/admin/login' />;
         return children;
     }
 
@@ -46,8 +49,10 @@ const Routing = () => {
         <Route path='/chats' element={<ProtectedRoute><ChatsPage /></ProtectedRoute>} />
         <Route path='/message' element={<ProtectedRoute><SingleChat /></ProtectedRoute>} />
         <Route path='/admin' element={<AdminPage />}>
-            <Route path='/admin/dashboard' element={<AdminDashboardPage />} />
             <Route path='/admin/login' element={<AdminLoginPage />} />
+            <Route path='/admin/dashboard' element={<ProtectedAdminRoute><AdminDashboardPage /></ProtectedAdminRoute>} />
+            <Route path='/admin/users' element={<ProtectedAdminRoute><AdminUsersPage /></ProtectedAdminRoute>} />
+            <Route path='/admin/add-field' element={<ProtectedAdminRoute><AddFieldPage /></ProtectedAdminRoute>} />
         </Route>
         <Route path='*' element={<NotFound />} />
     </Routes>

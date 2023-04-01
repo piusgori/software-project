@@ -5,6 +5,9 @@ const { validationResult } = require('express-validator');
 const HttpError = require('../models/http-error');
 const Admin = require('../models/admin')
 const Field = require('../models/field');
+const Question = require('../models/question');
+const Answer = require('../models/answer');
+const User = require('../models/user')
 
 exports.register = async (req, res, next) => {
     try {
@@ -62,5 +65,32 @@ exports.addField = async (req, res, next) => {
         res.status(201).json({ message: 'Field Created Successfully', field: createdField['_doc'] });
     } catch (err) {
         return next(new HttpError('Unable to add field'));
+    }
+};
+
+exports.getQuestions = async (req, res, next) => {
+    try {
+        const questions = await Question.find();
+        res.status(200).json({ message: 'Questions found', questions });
+    } catch (err) {
+        return next(new HttpError('Unable to get questions'));
+    }
+};
+
+exports.getAnswers = async (req, res, next) => {
+    try {
+        const answers = await Answer.find();
+        res.status(200).json({ message: 'Answers found', answers });
+    } catch (err) {
+        return next(new HttpError('Unable to get answers'));
+    }
+}
+
+exports.getUsers = async (req, res, next) => {
+    try {
+        const users = await User.find();
+        res.status(200).json({ message: 'Users found', users });
+    } catch (err) {
+        return next(new HttpError('Unable to get users'));
     }
 }

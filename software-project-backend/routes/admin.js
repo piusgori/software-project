@@ -18,4 +18,10 @@ router.post('/field', adminToken, [
     body('name').isLength({ min: 2 }).withMessage('Please enter the name of the field of at least 2 characters long')
 ], adminController.addField);
 
+router.get('/questions', adminToken, adminController.getQuestions);
+
+router.get('/answers', adminToken, adminController.getAnswers);
+
+router.get('/users', adminToken, adminController.getUsers);
+
 module.exports = router;
