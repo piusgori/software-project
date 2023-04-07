@@ -22,6 +22,7 @@ exports.getFields = async (req, res, next) => {
 exports.getTopQuestions = async (req, res, next) => {
     try {
         const id = req.id;
+        console.log(id);
         const questions = await Question.find({ user: { $ne: id } }).sort({ views: -1 }).limit(10);
         const foundUser = await User.findById(id, { password: 0, githubId: 0 });
         questions.forEach(async (q) => {
@@ -58,6 +59,7 @@ exports.searchQuestions = async (req, res, next) => {
     try {
         const id = req.id;
         const { input } = req.params;
+        console.log(input);
         const questions = await Question.find({ $or: [{ title: { $regex: input } }, { question: { $regex: input } }, { user: { $ne: id } }] });
         const foundUser = await User.findById(id, { password: 0, githubId: 0 });
         questions.forEach(async (q) => {
